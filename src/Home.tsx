@@ -1,18 +1,16 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-const CyclesContext = createContext({
-    activeCycle: 1,
-})
+const CyclesContext = createContext({} as any)
 
 function NewCycleForm() {
-    let { activeCycle } = useContext(CyclesContext)
+    let { activeCycle, setActiveCycle } = useContext(CyclesContext)
 
     return (
         <div>
             <h1>NewCycleForm: {activeCycle}</h1>
             <button onClick={() => {
-                activeCycle = 2
-            }}></button>
+                setActiveCycle(activeCycle + 2)
+            }}>Add 2</button>
         </div>
     )
 }
@@ -24,12 +22,13 @@ function Countdown() {
 }
 
 export function Home() {
+    const [activeCycle, setActiveCycle] = useState(0)
 
     return (
-        <div>
+        <CyclesContext.Provider value={{ activeCycle, setActiveCycle }}>
             <NewCycleForm />
             <Countdown />
-        </div>
+        </CyclesContext.Provider>
 
     )
 }
